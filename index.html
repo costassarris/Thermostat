@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>Thermostat</title>
+  <link rel="stylesheet" type="text/css" href="application.css">
+</head>
+
+<body>
+  <header>
+      <a>THERMOSTAT</a>
+  </header>
+  <main class="wrapper">
+    <h1 class="temperature"><span id="temperature">??</span> &#8451</h1>
+    <p>
+      <a href='#' class='increaseTemp button'>+</a>
+      <a href='#' class='decreaseTemp button'>-</a>
+      <a href='#' class='reset'>Reset</a>
+    </p>
+    <a href='#' class='powerSave'>Power Save Mode</a><span id="powerSaveStatus"></span>
+  </main>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript" src="./src/Thermostat.js"></script>
+<script>
+  var thermostat = new Thermostat();
+  $(document).ready(function() {
+
+    $.fn.textcolor = function() {
+      if (thermostat.energyUsage() == "low") {$(this).removeClass().addClass('low')};
+      if (thermostat.energyUsage() == "medium") {$(this).removeClass().addClass('medium')};
+      if (thermostat.energyUsage() == "high") {$(this).removeClass().addClass('high')};
+    };
+
+    $('#temperature').text(thermostat.temp).textcolor();
+
+    $('.increaseTemp').on('click', function() {
+      thermostat.up();
+      $('#temperature').text(thermostat.temp).textcolor();
+    });
+
+    $('.decreaseTemp').on('click', function() {
+      thermostat.down();
+      $('#temperature').text(thermostat.temp).textcolor();
+    });
+
+    $('.reset').on('click', function() {
+      thermostat.resetButton();
+      $('#temperature').text(thermostat.temp).textcolor();
+    });
+
+    $('#powerSaveStatus').text(thermostat.powerSaveStatus);
+
+    $('.powerSave').on('click', function() {
+      thermostat.powerSaveSwitch();
+      $('#temperature').text(thermostat.temp).textcolor();
+      $('#powerSaveStatus').text(thermostat.powerSaveStatus);
+    });
+
+  });
+</script>
+</body>
+
+
+</html>
